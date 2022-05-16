@@ -13,7 +13,19 @@ def shortest_shortest_path(graph, source):
       (shortest path weight, shortest path number of edges). See test case for example.
     """
     ### TODO
-    pass
+    x = [(0, source)]
+    depth[source] = 0
+    weight[source] = 0
+    while x:
+      dep, top = heappop[x]
+      for node in graph:
+        if depth[node] == 1:
+          depth[node] = dep + 1
+          weight[node] = weight[top]
+          heappush(x, (dep + 1, node))
+    for node in graph:
+      result[node] = (weight[node], depth[node])
+    return result
     
 def test_shortest_shortest_path():
 
@@ -41,7 +53,20 @@ def bfs_path(graph, source):
       that vertex in the shortest path tree.
     """
     ###TODO
-    pass
+    x = deque()
+    path = {}
+    for node in graph:
+      if node != source:
+        path[node] = None
+    x.append(source)
+
+    while x:
+      left = x.popleft()
+      for next in graph[left]:
+        if node not in parent:
+          x.append(next)
+          path[next] = left
+    return path
 
 def get_sample_graph():
      return {'s': {'a', 'b'},
@@ -66,7 +91,13 @@ def get_path(parents, destination):
       (excluding the destination node itself). See test_get_path for an example.
     """
     ###TODO
-    pass
+    path = []
+    while destination in parents:
+      path.append(parents[destination])
+      twodestination = parents[destination]
+      destination = twodestination
+      return path
+      
 
 def test_get_path():
     graph = get_sample_graph()
